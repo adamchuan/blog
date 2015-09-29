@@ -11,8 +11,8 @@ title: AdamChuan's Blog
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
 	<meta name="format-detection" content="telephone=no" />
 	<meta property="qc:admins" content="45414367715305166012" />
-	<link rel="stylesheet" href="/assets/css/all.min.css">
-	<link href="/assets/plugins/google-code-prettify/prettify.css" rel="stylesheet">
+	<link rel="stylesheet" href="{{ site.baseurl }}assets/css/all.min.css">
+	<link href="{{ site.baseurl }}assets/plugins/google-code-prettify/prettify.css" rel="stylesheet">
 	<script type="text/javascript">
 	try{
 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
@@ -63,7 +63,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 </div>
 
 <footer class='footer-container'> 
-	<span class='footer-copyright'>© 2007 - 2014 AdamChuan.xyz</span>
+	<span class='footer-copyright'>© 2015 by AdamChuan</span>
 </footer>
 <div class="btn-backtotop">
 	<div class="arrow"></div>
@@ -83,7 +83,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 <script type="text/javascript" src = 'assets/js/all.js'></script>
 <script>
 	{% for post in site.posts  %}
-article.add('{{ post.url }}','{{ post.summary }}','{{ post.category }}','{{ post.tags}}','{{ post.date | date:"%Y年%m月%d日" }}','{{ post.title }}');
+article.add('{{ site.baseurl }}' + '{{ post.url }}','{{ post.summary }}','{{ post.category }}','{{ post.tags}}','{{ post.date | date:"%Y年%m月%d日" }}','{{ post.title }}');
 {% endfor %}
 </script>
 
