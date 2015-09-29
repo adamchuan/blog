@@ -1,7 +1,7 @@
 var version = 1;
 
 var gulp = require('gulp');
-var minifycss = require('gulp-minify-css');
+var minifycss = require('gulp-cssmin');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
@@ -57,7 +57,7 @@ gulp.task('build-js', function() {
         .pipe(connect.reload());
 });
 
-gulp.task('default', function() {
+gulp.task('default',['build-css','build-js'], function() {
     connect.server({
         root: '_site',
         livereload: true,
@@ -66,7 +66,4 @@ gulp.task('default', function() {
  
    gulp.watch(['assets/js/source/*.js','assets/js/control.js'], ['build-js']);
    gulp.watch('assets/less/*.less', ['bulid-css']);
-
-   gulp.run('build-js');
-   gulp.run('bulid-css');
 });

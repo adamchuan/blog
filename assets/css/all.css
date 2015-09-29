@@ -531,6 +531,10 @@ a:focus {
 }
 html {
   overflow-y: scroll;
+  height: 100%;
+}
+body {
+  height: 100%;
 }
 em {
   font-style: italic;
@@ -637,6 +641,7 @@ em {
   border-top: 5px solid #fff;
   opacity: 1;
 }
+.main-contrainer .btn_wrap.on,
 .main-contrainer .btn_wrap:hover {
   background: rgba(0, 0, 0, 0.6);
 }
@@ -708,7 +713,15 @@ em {
 .pageChange .post-next-link {
   display: block;
 }
+.wrapper {
+  position: relative;
+  min-height: 100%;
+}
 .footer-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   text-align: center;
   font-size: .875em;
   color: #737373;

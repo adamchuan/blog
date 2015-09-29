@@ -2,16 +2,29 @@
 layout: default
 title: AdamChuan's Blog
 ---
-{% include header.html %}
-{% include template.html %}
-<div>
-	<dl>
-		<dd>写写代码，打打dota</dd>
-		<dd>email: adamzhou@ghy.cn</dd>
-		<dd><a href="https://github.com/adamzhou" target="_blank">github:https://github.com/adamzhou</a></dd>
-	</dl>
-</div>
-{% include footer.html %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include header.html title="关于我" %}
+</head>
+<body>
+	<div class="wrapper">
+		{% include nav.html index="3" %}
+		<div class='main-contrainer'>
+		<div id='articles' class='article-container'>
+			<div>
+				<dl>
+					<dd>写写代码，打打dota</dd>
+					<dd>email: adamzhou@ghy.cn</dd>
+					<dd><a href="https://github.com/adamzhou" target="_blank">github:https://github.com/adamchuan</a></dd>
+				</dl>
+			</div>
+		</div>
+		{% include copyright.html %}
+	</div>
+</body>
+</html>
+
 
 
 

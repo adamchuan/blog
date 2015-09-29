@@ -1,17 +1,35 @@
 ---
-layout: classes
+layout: default
 title: AdamChuan's Blog
 ---
-<script>	
-var pageType = 1;
-var pages = {};
-{% for post in site.posts  %}
-	pages.{{ post.category }} = pages.{{ post.category }} || [];
-	pages.{{ post.category }}.push({
-		title:'{{ post.title }}',
-		url : '{{ post.url }}',
-		tags: '{{ post.tags}}',
-		date: '{{ post.date | date:"%m-%d-%Y" }}'
-	});
-{% endfor %}
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include header.html title="文章分类" %}
+</head>
+<body>
+	<div class="wrapper">
+		{% include nav.html index="1" %}
+		<div class='main-contrainer'>
+
+			<div id='articles' class='article-container'>
+				
+			</div>
+
+		</div>
+		{% include copyright.html %}
+	</div>
+	{% include template.html %}
+	{% include footer.html %}
+	<script>
+		{% for post in site.posts  %}
+	article.add('{{ site.baseurl }}' + '{{ post.url }}','{{ post.summary }}','{{ post.category }}','{{ post.tags}}','{{ post.date | date:"%Y年%m月%d日" }}','{{ post.title }}');
+
+		{% endfor %}
+	</script>
+	<script type='text/javascript' src = '{{ site.baseurl }}/assets/js/page_class.js'></script>
+</body>
+</html>
+
+
+

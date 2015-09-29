@@ -91,6 +91,10 @@ a:focus {
 }
 html {
   overflow-y: scroll;
+  height: 100%;
+}
+body {
+  height: 100%;
 }
 em {
   font-style: italic;

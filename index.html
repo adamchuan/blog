@@ -3,32 +3,43 @@ layout: default
 title: AdamChuan's Blog
 
 ---
-{% include header.html %}
-{% include template.html %}
-<div class='main-contrainer'>
-	<aside class='left_aisde'>
-		<a class="btn_wrap btn_prev">
-			<i class='i_btn '></i>
-		</a>
-	</aside>
-	<div id='articles' class='article-container'>
-		
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include header.html title="code world" %}
+</head>
+<body>
+	<div class="wrapper">
+		{% include nav.html index="0" %}
+		<div class='main-contrainer'>
+			<aside class='left_aisde'>
+				<a class="btn_wrap btn_prev">
+					<i class='i_btn '></i>
+				</a>
+			</aside>
+			<div id='articles' class='article-container'>
+				
+			</div>
+			<aside class='right_aisde'>
+				<a class="btn_wrap btn_next">
+					<i class='i_btn'></i>
+				</a>
+			</aside>
+		</div>
+		{% include copyright.html %}
 	</div>
-	<aside class='right_aisde'>
-		<a class="btn_wrap btn_next">
-			<i class='i_btn'></i>
-		</a>
-	</aside>
-</div>
+	{% include template.html %}
+	{% include footer.html %}
+	<script>
+		{% for post in site.posts  %}
+	article.add('{{ site.baseurl }}' + '{{ post.url }}','{{ post.summary }}','{{ post.category }}','{{ post.tags}}','{{ post.date | date:"%Y年%m月%d日" }}','{{ post.title }}');
 
+		{% endfor %}
+	</script>
+	<script type="text/javascript" src = "{{ site.baseurl }}/assets/js/page_home.js"></script>
+</body>
+</html>
 
-<script>
-	{% for post in site.posts  %}
-article.add('{{ site.baseurl }}' + '{{ post.url }}','{{ post.summary }}','{{ post.category }}','{{ post.tags}}','{{ post.date | date:"%Y年%m月%d日" }}','{{ post.title }}');
-{% endfor %}
-</script>
-
-{% include footer.html %}
 
 
 

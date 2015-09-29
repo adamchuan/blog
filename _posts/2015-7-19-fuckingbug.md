@@ -2,7 +2,7 @@
 layout: templates
 title: 有关坑，兼容性，经验的一些总结
 category: javascript
-tag: javascript,css3
+tag: javascript css3
 summary: <p>这是工作一年以来，自己工作中记录的一些东西,内容比较杂乱。</p>
 ---
 

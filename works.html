@@ -2,11 +2,30 @@
 layout: default
 title: AdamChuan's Blog
 ---
-{% include header.html %}
-{% include template.html %}
-<div>
-	整理好后会继续放出。
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include header.html title="一些轮子" %}
+</head>
+<body>
+	<div class="wrapper">
+		{% include nav.html index="2" %}
+		<div class='main-contrainer'>
 
-{% include footer.html %}
+			<div id='articles' class='article-container'>
+				<div>
+					暂时下架
+				</div>
+			</div>
+
+		</div>
+		{% include copyright.html %}
+	</div>
+</body>
+</html>
+
+
+
+
+
 
