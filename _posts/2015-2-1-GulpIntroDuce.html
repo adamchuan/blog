@@ -1,0 +1,68 @@
+---
+layout: templates
+title: Gulp使用经验总结
+category: javascript
+tag: tools
+summary: <p>从Grunt迁移到Gulp上也有两个月了，自己对Gulp也有了新的认识，从使用和编写上来记录一下自己的心得。</p>
+---
+<p>Gulp最大的优势应该是减少平凡的IO操作，构建速度比Grunt要快，这在平时调试时很重要。</p>
+<p>掌握Gulp需要了解Gulp常用的几个api，src，dest，watch</p>
+<p>Gulp才用的是Promise回调，文件流实际使用的是<a href="https://github.com/wearefractal/vinyl" target="_blank">vinyl</a>这个类</p>
+<p>Gulp编写插件是很有意思的一件事，掌握好正则表达式，对你的插件编写非常有帮助。</p>
+<p>接下来介绍一下，自己使用gulp中很零碎的经验。</p>
+<p>很多人的watch任务其实不是特别高效，举个栗子</p>
+
+{% highlight javascript %}
+
+gulp.task('default', function() {
+   gulp.watch('assets/less/*.less', ['bulid-css']);
+   gulp.run('bulid-css');
+});
+
+gulp.task('bulid-css', function() {
+    gulp.src('assets/less/*.less')
+        .pipe(less())
+	/* To Something */
+});
+
+{% endhighlight %}
+<p>上面这个代码其实想要的是less文件一修改自动编译less。但是实际上这个watch达到的效果是只有一有less文件改变，就重新编译所有的less文件。这其实是很低效的。应该这么做</p>
+
+{% highlight javascript %}
+
+gulp.task('default', function() {
+   gulp.watch('assets/less/*.less', ['bulid-css']);
+   gulp.run('bulid-css');
+});
+
+gulp.task('bulid-css', function() {
+	var build = function(path){
+		gulp.src(path)
+		    .pipe(less())
+		    /* To Do something */
+	}
+
+	bulid('assets/less/*.less');
+
+	gulp.watch('assets/less/*.less')
+		.on("change",function(event){
+			build(event.path)
+		});
+});
+
+{% endhighlight %}
+
+<p>上面代码的关键就是on中的change这个事件，当某个文件发生改变，就会触发后面的回调，event.path就是修改文件所在的距离。</p>
+<p>有些gulp插件其实是比较低效而且占据资源的，比如gulp-ftp这个，查看源码，你就会发现，他会为了src中的每个资源都要和FTP服务器建立一次连接，上传后再断开。我们理想的做法应该先建立一次连接，然后把src中的资源放入队列中去再上传。</p>
+<p>很多插件其实并不是通过node.js去实现的，而是在node.js中调用了其他的接口（命令行，自己写的c++库等）。Sass的编译实际上还是用ruby去完成的，我一直以为，他们会出一套node.js的编译版。</p>
+<p>分享几个自己常用的gulp插件</p>
+<ul>
+	<li>gulp-connect，便于livereload，解放你的F5</li>
+	<li>gulp-cssmin，css压缩</li>
+	<li>gulp-uglify,js压缩</li>
+	<li>gulp-rename, 主要是用于压缩后的文件重命名</li>
+	<li>gulp-compass，编译compass，管理雪碧图（用了都说好）</li>
+	<li>gulp-imagemin，和imagemin-pngquant配套使用，自动压缩png图片，非常方便</li>
+</ul>
+<p>当然了，如果你觉得你工具链中需要什么，自己动手写一个，不仅会提高生产力，造轮子也会让你很有成就感滴~。</p>
+<p>下次我会对自己现在的工作流程进行一个总结。</p>

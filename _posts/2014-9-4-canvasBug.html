@@ -1,0 +1,45 @@
+---
+layout: templates
+title: canvas bug及解决方案
+category: javascript
+tag: canvas bug
+summary: <p>最近用canvas做了一个移动端解锁的插件，这是自己第一次用canvas完成一个功能。其中遇到了很多奇奇怪怪的问题，尤其是在安卓上。在此做一个记录，方便以后查阅。</p>
+---
+<h3>锯齿的出现</h3>
+这个bug是这么产生的：用getImgdata和 putImgdata 来实现保存和还原某个状态时的canvas的图像
+首先这个想法是没有错的。确实能达到目的。<br/>
+<strong>但是到了万恶的安卓上时，却出现了锯齿，图片变得很毛躁</strong><br/>
+我猜测的原因是，imageData保存的是每个像素点的rgba，但实际上为了达到平滑的效果，每个像素点上数据比rgba要复杂。所以我的做法是，放弃用imageData来保存某一时刻的状态，转而采用根据当时的其他数据，用绘图api还原出当时的状态。<br/>
+当然如果对于一些复杂的图像肯定是要用图片的，那就用二倍大的原始图作为imageData（这个我没有测试过是否成功）
+
+<h3>重影的出现</h3>
+某些低版本的andriod居然会出现重影的bug，据说是因为canvas的宽度不是整个屏幕那么大才会出现这个bug。
+采用的解决方案是给canvas的父级元素加上 ，这句话会欺骗浏览器采用了硬件加速（如果支持的话），当然为什么启用硬件加速后，这个重影就没了，我也不懂。
+
+{% highlight css %}
+
+overflow : visible ;
+-webkit-Transform  : translateZ(0);
+
+{% endhighlight %}
+
+本以为问题到此解决，但是leader的小米3，安卓版本4.1上依然有重影。后来的做法是，要绘制新的图像之前，先采用
+clearRect清除画布图像，然后重新画上，当然，clearRect在安卓偶尔也会失效,所以又有了下面一种解决方案。请注意，这里的这个isAndrioid判断一定要加上，否则在iphone4s ios6下，画图时候会出现明显的画布闪烁。
+
+{% highlight javascript %}
+function clearCanvas(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if(isAndroid) { /* 安卓下clearRect无效时的hack */
+        canvas.style.display = 'none';// Detach from DOM
+        canvas.offsetHeight; // Force the detach
+        canvas.style.display = 'inherit'; // Reattach to DOM
+    }
+}
+{% endhighlight %}
+
+<h3>canvas绘图优化</h3>
+<ol>
+	<li>putImageData效率其实比较低，在可能的情况下应该尽量使用api绘图</li>
+	<li>每一次beginPath()都会消耗一定的资源，所以在可能的情况下，绘图尽量在一个path内完成</li>
+	<li>在做动画变换时，不一定要清除整个画布，实际上clearRect开销很大，如果可能的话，计算出需要变化的区域进行清除</li>
+</ol>

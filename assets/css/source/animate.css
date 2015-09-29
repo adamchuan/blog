@@ -1,0 +1,107 @@
+@keyframes Flip {
+  from {
+    transform: skewY(0deg) scale(1, 1);
+  }
+  to {
+    transform: skewY(-90deg) scale(0, 1);
+  }
+}
+@-moz-keyframes Flip {
+  from {
+    transform: skewY(0deg) scale(1, 1);
+  }
+  to {
+    transform: skewY(-90deg) scale(0, 1);
+  }
+}
+@-webkit-keyframes Flip {
+  from {
+    transform: skewY(0deg) scale(1, 1);
+  }
+  to {
+    transform: skewY(-90deg) scale(0, 1);
+  }
+}
+@-o-keyframes Flip {
+  from {
+    transform: skewY(0deg) scale(1, 1);
+  }
+  to {
+    transform: skewY(-90deg) scale(0, 1);
+  }
+}
+@-webkit-keyframes bounce {
+  0%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1);
+  }
+}
+@keyframes bounce {
+  0%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+.filp {
+  transform-origin: left top;
+  animation: Flip 2s;
+  -moz-animation: Flip 2s;
+  -webkit-animation: Flip 2s;
+  -o-animation: Flip 2s;
+}
+@keyframes flutter {
+  0% {
+    transform: scaleY(0.5) translateY(-6px);
+  }
+  100% {
+    transform: scaleY(0.5) translateY(-91px);
+  }
+}
+@-webkit-keyframes flutter {
+  0% {
+    transform: scaleY(0.5) translateY(-6px);
+  }
+  100% {
+    transform: scaleY(0.5) translateY(-91px);
+  }
+}
+@-moz-keyframes flutter {
+  0% {
+    transform: scaleY(0.5) translateY(-6px);
+  }
+  100% {
+    transform: scaleY(0.5) translateY(-91px);
+  }
+}
+@keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

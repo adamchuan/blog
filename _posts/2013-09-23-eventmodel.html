@@ -1,0 +1,75 @@
+---
+layout: templates
+title: JS 事件模型
+category: javascript
+tag: event
+summary: 在各种浏览器中存在三种事件模型:原始事件模型( original event model),DOM2事件模型,IE事件模型.
+---
+<p>其中原始的事件模型被所有浏览器所支持,而DOM2中所定义的事件模型目前被除了IE以外的所有主流浏览器支持.</p>
+
+<h2>原始事件模型</h2>
+
+<p>其事件类型:分为"输入事件(如onclicki)"和"语义事件(如onsubmit)"</p>
+
+<p>事件程序的注册可以以下几种方式: 
+<ol>
+	<li>	
+		<p><em>JS代码作为HTML性质值</em></p>
+		<code><input type="button" value="Press me" onclick="alert('thanks');" /></code>
+	</li>
+	<li>事件处理程序作为JS属性
+
+  附注：文档中的每个HTML元素在文档树中都有一个相应的JS对象，这个JS对象的属性对应于那个HTML元素的性质，无论作为HTML性质的JS代码还是作为JS属性的时间处理程序，其本身的属性都是函数"function".
+{% highlight javascript %}
+	<form name="f1">
+		<input name="b1" type="button" value="Press Me"/>
+	</form>
+{% endhighlight %}
+<p>第一种赋值方式:</p>
+{% highlight javascript %}
+ document.f1.b1.onclick = function(){alert('thanks');};
+{% endhighlight %}
+<p>第二种赋值方式:</p>
+{% highlight javascript %}
+function plead(){
+	window.status="Please Press Me!";
+} 
+document.f1.bi.onmouseover = plead;
+{% endhighlight %}
+<p>作为JS属性的事件处理程序可以用JS属性显式调用</p>
+{% highlight javascript %}
+document.myfrom.onsubmit();
+{% endhighlight %}
+<P>事件处理程序可以返回false来阻止浏览器执行事件的默认动作，常用的如对onsubmit的操作。例外是 
+	对超链接mouseover的window.status显示事件的阻挡，是返回true.例如:</P>
+
+<a href="help.htm" onmouseover="window.status='help';return true;">help</a>
+</li>
+</ol>
+<h2>DOM2事件模型</h2>
+
+<p>这个模型参考了IE的气泡模型而制定的,它是由w3c制定的规范.在原始模型中事件一旦发生就直接调用事件句柄,没有其它的事件传播过程.而在DOM2模型中事件有一个特殊的传播过程,分为三个阶段: </p>
+<ol>
+	<li>
+capturing phase:事件被从document一直向下传播到目标元素,在这过程中如果有哪个祖先元素对该事件感兴趣可以注册自己的处理函数. 
+	</li>
+	<li>
+target phase:事件到达目标元素,执行目标元素的事件处理函数.
+	</li> 
+	<<li>bubbling phase:事件从目标元素上升一直到达document,虽然所有的事件类型都会经历captruing 
+	</li>
+</ol>
+<p>phase阶段但是只有部分事件会经历bubbling phase阶段,例如submit事件就不会被上浮. 
+在整个的事件传播过程中可以调用event.stopPropagation()来停止事件的传播,调用preventDefault()来阻止浏览器的默认行为.
+</p>
+{% highlight javascript %}
+addEventListener("eventType","handler","true!false");
+
+removeEventListner("eventType","handler","true!false");
+{% endhighlight %}
+<h2>IE模型</h2>
+
+<p>IE模型也提供了一个event对象封装了事件的详细信息,但是IE不把该对象传入事件处理函数,由于在任意时刻只会存在一个事件,所以IE把它作为全局对象window的一个属性,IE中的事件传播模式对应于DOM2的第二和第三阶段,首先执目标元素的处理函数,然后向上传播到达document,ie中只能能捕捉鼠标事件,而DOM2中可以捕捉所有的事件,IE中注册和删除事件处理函数的方法也不同于DOM2.
+</p>
+<p>事件处理函数的注册和删除是通过元素的attachEvent( "eventType","handler") and detachEvent("eventType","handler" ),与dom2不同的是eventType有on前缀</p>
+<p>需要注意的是， 如果为某个dom元素添加了多个事件监听attachEvent，他的执行顺序不定，最好放入一个回调函数连中去执行。</p>

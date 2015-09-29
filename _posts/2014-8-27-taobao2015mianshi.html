@@ -1,0 +1,184 @@
+---
+layout: templates
+title: 淘宝2015秋招面试题
+category: javascript
+tag: 面试
+summary: <p>面试题其实是用一直关心的东西，用面试题来检验自己的所学，不仅可以巩固知识，另一方也帮助自己了解行情，激发自己的学习热情(其实就是为了涨工钱)。BAT的面试题一直都是行业标杆，他们出的题都会引起大家的讨论。虽然自己都毕业了），还是来强行装一装应届生。毕竟没能进bat 心里还是很遗憾的。</p>
+---
+<ol>
+	<dl>
+		<dt>按照CommonJS规范，在任何模块代码的作用域下内置了以下哪些变量？</dt>
+		<dd>a.module</dd>
+		<dd>b.context</dd>
+		<dd>c.require</dd>
+		<dd>d.exports</dd>
+	</dl>
+	<p>答案：a，c，d自己看规范吧。</p>
+<li>
+	<dl>
+		<dt>a.以下关于application cache的说法，哪些是不正确的？</dt>
+		<dd>b.对于目标页面而言，可以通过来启用application cache。</dd>
+		<dd>c.对于启用了application cache的页面，该页面默认不会被缓存。</dd>
+		<dd>d.manifest文件仅在初次访问站点时才会被下载。 </dd>
+		<dd>对于manifest中列出的资源文件，只要它们被修改，下次访问站点时就会被重新下载。</dd>
+	</dl>
+	<p>答案：这个自己真不知道，没用过manifest，应该还是要加版本号之类的吧。</p>
+</li>
+<li>
+	<dl>
+		<dt>下面哪些技术可用于优化 CSS 图片加载 ?</dt>
+		<dd>a.CSSSprite</dd>
+		<dd>b.SVGSprite</dd>
+		<dd>c.Iconfont</dd>
+		<dd>d.Base64</dd>
+	</dl>
+	<p>答案：就自己使用来说 只知道 A D， ICONFONT，这个也属于加载文件，小图标一起加载，应该也行 Svg没使用过。</p>
+</li>
+<li>
+	<dl>
+		 <dt>程序员小马对某 Git 仓库执行一系列操作，请写出每个步骤对应的 Git 命令：</dt>
+		 <dd>从当前分支hotfix 切换到分支 feature  </dd>
+		 <dd>添加新文件 feature.js </dd>
+		 <dd>提交文件 feature.js，日志消息为“添加新文件” </dd>
+		 <dd>将 feature 分支衍合（变基）到 master 分支（不考虑文件冲突 )</dd>
+		 <dd>5. 推送feature 分支到远程服务器 origin 的同名分支</dd> 
+	</dl>
+	<p>答案: <br/>
+		<strong>checkout feature</strong><br/>
+		<strong>git add feature.js</strong><br/>
+		<strong> git commit -m '添加新文件'</strong><br/>
+		<strong>git merge master </strong><br/>
+		<strong>git pull origin origin</strong><br/>
+	</p>
+</li>
+<li>
+	<dl>
+		<dt>从前端工程师的角度如何提高页面的用户体验。</dt>
+		<dd>1.尽可能的还原设计师稿</dd>
+		<dd>2.网页效应的速度，加载方式，加载速度，响应时间。</dd>
+		<dd>3.合理的特效，尽可能方便用户操作</dd>
+	</dl>
+</li>
+<li>
+	<dl>
+		<dt>有dom结构如上,请用原生代码（禁用jQuery作答）实现以下功能：</dt>
+		<dd>(a)计算鼠标在mod-spm区域内的停留时长，data-spm不同视为不同区域</dd>
+		<dd>(b)尽量减少性能损耗</dd>
+		<dd>(c)重复进入计时累加</dd>
+	</dl>
+{% highlight html %}
+&lt;div class='mod-spm'data-spmid='123'&gt;<
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_a'&gt;&lt;/div&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_b'&gt;&lt;/div&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_c'&gt;&lt;/div&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_d'&gt;&lt;/div&gt;
+&nbsp; &nbsp; &lt;/div&gt;
+&nbsp; &nbsp; &lt;div class='mod-spm'data-spmid='456'&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_a'&gt;&lt;/div&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_b'&gt;&lt;/div&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_c'&gt;&lt;/div&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_d'&gt;&lt;/div&gt;
+&nbsp; &nbsp; &lt;/div&gt;
+&nbsp; &nbsp; &lt;div class='mod-spm'data-spmid='789'&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_a'&gt;&lt;/div&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_b'&gt;&lt;/div&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_c'&gt;&lt;/div&gt;
+	&nbsp; &nbsp;&nbsp; &nbsp; &lt;div class='child_d'&gt;&lt;/div&gt;
+&nbsp; &nbsp; &lt;/div&gt;
+{% endhighlight %}
+<p>答案：这题考点没搞懂，考的是作用域？ 每个监听事件都要有自己的一个countTime的副本，然后另外能优化性能的地方，我觉得一是清除startTime的内存，还有modCollections的length放在变量中</p>
+{% highlight javascript %}
+	var modCollections = document.querySelectorAll(".mod-spm");
+	for(var i = 0 , len = modCollections.length  ; i < len ; i++){
+		addTimer(modCollections[i]);
+	}
+	function addTimer(elm){
+		var startTime;
+		var countTime = 0;
+		elm.addEventListener("mouseenter",function(e){
+			startTime = new Date();
+		});
+		elm.addEventListener("mouseout",function(e){
+			countTime += (new Date() - startTime);
+			console.log("停留时间 : " + countTime); 
+			startTime = null;
+		});
+	}
+{% endhighlight %}
+
+</li>
+<li>
+	<dl>
+		<dt>简述浏览器中使用js跨域获取数据的几种方法</dt>
+	</dl>
+	<p>答案：1.JSONP，2.通过服务器转发，3.隐形的iframe。</p>
+</li>
+<li>
+<dl>
+	<dt>编写一个JavaScript函数，输入指定类型的选择器(仅需支持id，class，tagName三种简单CSS选择器，无需兼容组合选择器)可以返回匹配的DOM节点，需考虑浏览器兼容性和性能。</dt>
+</dl>
+{% highlight javascript %}
+/*** @param selector {String} 传入的CSS选择器。* @return{Array}*/
+	var query = function(selector){
+		//返回查找到的节点数组return [];
+	}
+{% endhighlight %}
+<p>答案：最好是用正则写。</p>
+{% highlight javascript %}
+var query = function(selector){
+
+	if(typeof document.querySelectorAll === 'function'){
+		return document.querySelectorAll(selector);
+	}
+	if(typeof selector !== 'string'){
+		return ;
+	}
+	if(selector.length === 0){
+		return ;
+	}
+	var type,newSel;
+	if(selector[0] === '#'){
+		type = "id";
+		newSel = selector.substr(1,selector.length - 1);
+	}
+	else if(selector[0] === '.'){
+		type = 'class';
+		newSel = selector.substr(1,selector.length - 1);
+	}else if(/{a-zA-Z}*/.test(selector)){
+		type = 'tag';
+		newSel = selector;
+	}
+	var result = [];
+	var handler = {
+		'class' : function(cn){
+			
+			addToResult(document.body);
+			function addToResult(elm){
+				if(elm.className === cn){
+					result.push(elm);
+				}
+				var children = elm.children;
+				var len = elm.children.length;
+				if(len > 0){
+					for(var i = 0 ; i < len ;i++){
+						addToResult(children[i]);
+					}
+				}
+			}
+
+		},
+		'id' : function(Id){
+			result.push(document.getElementById(Id));
+		},
+		'tag' : function(tag){
+			result = document.getElementsByTagName(tag);
+		}
+	}
+
+	handler[type](newSel);
+	return result;
+}
+{% endhighlight %}
+</li>
+</ol>
+<p>总结：就在线答题来看，考的题目设计比较新，难度不算很大，也许有坑，我也跳进去了。注重还是看基础</p>

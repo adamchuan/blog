@@ -1,0 +1,64 @@
+---
+layout: templates
+title: SVG初体验
+category: summary
+tag: 总结 svg
+summary: <p>最近一次平台活动中的一个特效需要用到了SVG，现在做完了，记录一些自己使用的心得和坑。</p>
+---
+<p>关于SVG 和 SMIL一些基本用法这里不再作介绍，下面说一下自己使用中遇到的问题吧。</p>
+<h3>1.IE不支持SMIL</h3>
+<p>如果你的动画需要在PC端使用，慎用SVG。</p>
+<h3>2.body.onload执行后,SMIL才会开始</h3>
+<p>这个隐藏了一个坑，当你页面中有许多大资源时，常见如图片，这就会阻塞SMIL的执行。我觉得这样设计的目的是出于让动画完整展现的目的。就像平常的CSS3动画一样，要先保证资源加载完毕，才会执行动画。</p>
+
+<p>例如下面的例子</p>
+{% highlight javascript %}
+<script>
+console.time("a");
+console.time("b");
+window.onload = function(){
+    console.timeEnd("a");
+};
+</script>
+
+	<svg style="width:400px;height:400px;" class="a1" viewbox="0 0 400 400"d>
+    	<circle id="circle3" cx="200" cy="200" r="100" fill-opacity="0" stroke-width="1" stroke="#1e6b81" fill="#1e6b81"d>
+            	<animate class="an" attributeName="fill-opacity" begin="0s" dur="0.5s" from="0" to="1" repeatCount="1" fill="freeze"/d>
+    	</circled>
+	</svgd>
+	<img onload="console.timeEnd('b')" src="http://placehold.it/150x150"/d>
+
+//b: 27276.885ms
+//a: 27277.019ms
+{% endhighlight %}
+<p>begin="0s"这里的0s是以body.onload之后的时间计算的 </p>
+
+
+<h3>3.SVG动画的局限</h3>
+<p>SMIL，只能改变以下这些属性来达到动画<br>
+<ul>
+	<li>动画元素的数值属性（X, Y, …）</li>
+	<li>动画属性变换（平移或旋转）</li>
+	<li>动画颜色属性</li>
+	<li>沿着运动路径运动</li>
+</ul>
+<p>如果需要改变形状，例如画一个扇形，只能通过JS来修改SVG里参数，如path中的d。但通过js来修改svg的参数，这种方案效率很低，svg也是dom，每次修改都会引起reflow，PC端还能接受，但移动端很容易出现卡顿。</p>
+
+<h3>4.CSS属性 并不是所有都能用于SVG的</h3>
+<p>
+	千万不要给svg里面的标签添加css属性。例如transform。在手机测试时发现，设置transform-origin无效(iphone4)，background-color,opacity,有时也无效。CSS3动画支持也不完全，如设置transition:fill 移动端不会生效。<em>所以一定要使用svg的标签的属性去设置相应的样式。</em> <br>
+	但是svg标签是支持css的，其实应该把svg整体当作一张图片，这样就好理解了。
+</p>
+
+<h3>5.JS调用SMIL</h3>
+<p>
+	可以通话animation标签对应的dom具有的beginElement()来播放动画，但是目前没有找到完成时的回调。
+</p>
+<h3>总结</h3>
+<p>
+	SVG在不同的分辨率下有表现很好。<br>
+	如果期待对元素形状做一些改变来达到动画的目的的话，还是选择用canvas来比较好。<br>
+	SVG动画能做的CSS3基本能做。<br>
+	SVG内部标签对CSS的支持并不完善，但是整个<br>
+	对于一些简单的图形标签，才用SVG是非常不错的方案。<br>
+</p>

@@ -1,0 +1,63 @@
+---
+layout: templates
+title: 关于响应式布局的一些思考。
+category: css
+tag: 布局 
+summary: <p>几年前，我就有接触到响应式布局这个概念。但是直到最近真正开始大范围的做移动端的页面，才认识到以前对响应式的思考并不是那么充分。</p>
+---
+<p>在上一个公司做的项目是一个工具类的webapp，对于兼容不同分辨率下主要做法是width都设置为百分比值，对于比较常见的两栏布局则，float + margin-left来做布局，这种布局应该属于自适应类的布局。<br />
+我起初以为这种布局方式肯定是万能的，因为自己对媒体查询的态度是能不用就不能，因为好的结构设计是不需要hack（我个人认为媒体查询算是一种hack），hack得越多，以后的代码越是不方便维护。<br />
+不过很快我就陷入了迷惑。<br />
+刚来京东的第二天，就接了一个卖场页的活动，然后我的导师丢给我一段媒体查询的代码，告诉我，他们现在做自适应的方法一般是用zoom。<br />
+大概原理就是，width为320时，zoom为1,360时zoom为1.125,640时，zoom为2。<br />
+
+{% highlight css%}
+
+@media only screen and (min-width:360px) and (max-width:399px)
+{
+    .zoom
+    {
+        zoom: 1.125;
+    }
+}
+@media only screen and (min-width:400px) and (max-width:539px)
+{
+    .zoom
+    {
+        zoom: 1.25;
+    }
+}
+@media only screen and (min-width:540px) and (max-width:639px)
+{
+    .zoom
+    {
+        zoom: 1.6875;
+    }
+}
+@media only screen and (min-width:640px)
+{
+    .zoom,
+    {
+        zoom: 2;
+    }
+}
+{% endhighlight  %}
+
+当时我似懂非懂，就在所有元素上都才用了zoom东岱（这个方法其实是有缺陷的，比如计算offsettop时，是会有错误的，由于我自己使用zoom的经验不是很多，我并不敢过多使用他）。当然页面在各个分辨率下确实能够正常浏览，但是确有点奇怪的感觉，我也不知道哪里不对。<br />
+后来做了一个H5的动画页面，每一页都有不同的物品和场景，物品之间的距离都是相对的，而且是有参照物的，如果依然用zoom的方法，在同的分辨率下，高度也是有问题的。这次的页面和以前做的都不一样。因为H5动画页面是分页完成的，每一页就是整个手机浏览器的viewport大小。因为场景内动画的原因，为了让所有场景物件显示正确，应该是相对于高度来进行布局。但是市场上手机的高度却不是那么统一。<br />
+最后找到了一个解决方案，通过rem来进行布局的控制。大体思路上就是根据设计稿的分辨率设置一个原始的rem和px比例，然后根据设备尺寸的不同，根据这个比例调整rem对应的px。<br />
+{% highlight javascript %}
+var style = document.createElement("style"),timer = null;
+document.getElementsByTagName('head')[0].appendChild(style);
+var onresize = function(){
+    //比例 width 320  font-size 为16; 
+    var rem = 'font-size:' + 16 / 320 * document. documentElement. clientWidth + 'px;';
+    style.innerHTML = 'html{' + rem + '}';  
+};
+onresize();
+window.addEventListener('resize',onresize);
+{% endhighlight %}
+哈哈。发现这一妙法之后，我又开始滥用rem来进行布局。和使用zoom时一样，各个分辨率下确实能够正常浏览，但确实有个说不出的感觉。<br />
+直到刚入手了ip6 plus。我一直没懂有些应用说没做plus的兼容是什么意思。打开一看，原来是plus把没做兼容的应用的view直接放大，来达到正常显示的目的。我用rem做适配来不也是这种效果吗？<br />
+<em>所谓的大屏幕，是为了显示更多的内容，并不应该只是单纯的扩大原来的view，例如1px的边框，无论分辨率如何，它依旧是1px。但一个豆腐块内能显示的文字应该变多（font-size不变）</em><br />
+所以对于设计稿上表达出来的东西，你需要自己分析，哪些是应该随着分辨率不同而变化的，哪些是不能变得（如font-size,间距，1px元素等）。</p>

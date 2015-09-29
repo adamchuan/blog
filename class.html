@@ -1,0 +1,17 @@
+---
+layout: classes
+title: AdamChuan's Blog
+---
+<script>	
+var pageType = 1;
+var pages = {};
+{% for post in site.posts  %}
+	pages.{{ post.category }} = pages.{{ post.category }} || [];
+	pages.{{ post.category }}.push({
+		title:'{{ post.title }}',
+		url : '{{ post.url }}',
+		tags: '{{ post.tags}}',
+		date: '{{ post.date | date:"%m-%d-%Y" }}'
+	});
+{% endfor %}
+</script>

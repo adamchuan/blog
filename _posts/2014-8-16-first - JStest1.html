@@ -1,0 +1,108 @@
+---
+layout: templates
+title: JS 性能小实验 
+category: javascript
+tag: 性能
+summary: <p>项目暂时闲了下来，今天做了一个JS性能的小实验，看看自己一些编程习惯是不是正确的。</p>
+---
+<h3>innerHTML 和 appendChild </h3>
+<p>innerHTML 比 appendChild 效率跟高 <p>
+<p>但不要使用 innerHTML += "",浏览器会一直渲染 反而变慢。用个变量 str 保存innerHTML的内容，一起赋值</p>
+
+{% highlight javascript %}
+    function create(){
+       for(var i = 0; i < 1000; i++){
+         var div = document.createElement("div");
+         d1.appendChild(div);
+       }
+    }
+    function innerAdd(){
+         var str = ""
+         for(var i = 0; i < 1000 ; i++){
+           str += "<div></div>";
+         }
+         d2.innerHTML = str;
+    }
+    var t1,t2;
+    t1 = new Date();
+    create();
+    t2 = new Date();
+    console.log(t2.getTime()-t1.getTime());
+    t1 = new Date();
+    innerAdd();
+    t2 = new Date();
+    console.log(t2.getTime()-t1.getTime());
+{% endhighlight %}
+<h3>静态方法 和 实例化方法 效果比较</h3>
+<table class = "table table-bordered">
+       <tr>
+              <td></td>
+             <td>静态方法</td>
+             <td>实例化方法</td>
+       </tr>
+       <tr>
+             <td>Chrome</td>
+             <td>30-58ms</td>
+             <td>23ms</td>
+       </tr>
+       <tr>
+             <td>IE10</td>
+             <td>68-87ms</td>
+             <td>68-71ms</td>
+       </tr>
+       <tr>
+             <td>FF</td>
+             <td>4440ms</td>
+             <td>4440ms</td>
+       </tr>
+ </table>
+       <p>
+       Chrome中实例化方法执行速度很恒定,基本都在23ms
+                   而静态方法中执行速度波动很大 30-58ms 
+       IE10中 静态方法平均执行时间比实例化方法低
+       火狐太吊 。。 百万级的直接就卡了。 用了4S之多。 不过静态方法和实例化方法差别不大
+       </p>
+
+{% highlight javascript %}
+var cla = function(){}
+cla.add = function(){
+
+}
+cla.prototype.add = function() {
+      
+}
+
+var aaa = new cla();
+var t1 = new Date();
+for(var i = 0 ; i < 1000000; i++){
+      cla.add(); //静态方法
+}
+var t2 = new Date();
+console.log(t2.getTime() - t1.getTime());
+t1 = new Date();
+for(var i = 0 ; i < 1000000; i++){
+      aaa.add(); //实例方法
+}
+t2 = new Date();
+console.log(t2.getTime() - t1.getTime());
+
+{% endhighlight %}
+<h3>操作DOM 和 操作字符串比较</h3>
+<p>这个测试主要是针对需要使用html模板的情况。</p>
+<p>结果： 操作字符串 确实比操作dom快。</p>
+
+{% highlight javascript %}
+     var str =  "<div >__ID__<div>";
+     console.time("a")
+     for(var i = 0 ; i < 10000 ; i++){
+          str.replace(/__ID__/g,"__NAME__");
+          str.replace(/__NAME__/g,"__ID__");
+     }
+     console.timeEnd("a");
+     console.time("a")
+     for(var i = 0 ; i < 10000; i++){
+          node.innerHTML = "__ID__";
+          node.innerHTML = "__NAME__";
+     }
+     console.timeEnd("a");
+{% endhighlight %}

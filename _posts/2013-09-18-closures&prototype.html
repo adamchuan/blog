@@ -1,0 +1,107 @@
+---
+layout: templates
+title: javascrip中闭包与原型
+category:  javascript
+tag: 闭包
+summary: <p>一些基础的javascript知识，拿出来复习一下，加深印象。</p>
+---
+<h3>闭包</h3>
+<p>这个虽然看过很多，但觉得自己理解还是不是很到位，今天再复习一下。</p>
+
+<p>何为闭包?简单点说 就是 “子方法中调用了父方法中的变量”</p>
+{% highlight javascript %}
+function a(){
+	var b = "a";
+		function c(){
+			alert(b);
+		}
+	c();
+}
+{% endhighlight %}
+
+<p>这里执行a()后 变量 b 的内存并不会释放。 可以利用这个特性实现很多面向对象的编程，当然用不好也会造成内存泄漏。
+</p>
+<h3>Prototype</h3>
+<p>Prototype是javascript里面非常重要的一个概念，先直接上代码</p>
+{% highlight javascript %}
+function Person(){
+	this.name = adam;
+	this.getname = function(){
+		alert(this.name);
+	}
+}
+function Person(){
+
+}
+Person.prototype.name = "adam";
+Person.prototype.getname = function(){ 
+	alert(this.name);
+}
+{% endhighlight %}
+<p>其实以上两种方式添加了实例化的方法和属性 达到同一样的效果 其实我对js 中的function 一直有个误解， 把它仅仅理解成单独的一个函数，其实不是这样，js中所有变量都可以归为Object。
+	上面的代码在常规的面向对象编程中 就可以写成</p>
+{% highlight javascript %}
+class Person(){
+     public name = "adam";
+     public string getname (){
+
+     }
+}
+{% endhighlight %}
+<p>而其中的第一种写法 更像是构造函数的形式</p>
+{% highlight javascript %}
+class Person(){
+     public string name ;
+     public Person(string _name){
+        this.name = _name;
+     }
+}
+{% endhighlight %}
+<p>这里有一个地方需要注意 </p>
+{% highlight javascript %}
+function a(){
+     this.b = "hello";
+}
+a.prototype.b = "world";
+var c =  new a();
+console.log(c.b);
+{% endhighlight %}
+<p>输出的结果会是“hello”。
+	外部的prototype是不能 改变内部申明的属性。这个其实很好理解 结合上面构造方法的说明，类比到java代码中</p>
+{% highlight javascript %}
+class a(){
+  public string b ="world";
+  public a(string _b){
+         this.b = _b;
+  }
+}
+{% endhighlight %}
+<p所有的实例对象共享同一个prototype对象，那么从外界看起来，prototype对象就好像是实例对象的原型，而实例对象则好像"继承"了prototype对象一样。
+<a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" title="这篇文章写prototype写得很不错" target="_blank">这篇文章写prototype写得很不错</a>,我把其中的一些精髓拿过来</p>
+{% highlight javascript %}
+
+function DOG(name){
+	this.name = name;
+	this.species = '犬科';
+}
+var dogA = new DOG('大毛');
+var dogB = new DOG('二毛');
+
+dogA.species = '猫科';
+alert(dogB.species); // 显示"犬科"，不受dogA的影响
+
+{% endhighlight %}
+<p>每一个实例对象，都有自己的属性和方法的副本。这不仅无法做到数据共享，也是极大的资源浪费。</p>
+{% highlight javascript %}
+function DOG(name){
+　this.name = name;
+}
+DOG.prototype = { species : '犬科' };
+
+var dogA = new DOG('大毛');
+var dogB = new DOG('二毛');
+
+alert(dogA.species); // 犬科
+alert(dogB.species); // 犬科
+{% endhighlight %}
+<p>利用闭包和原型，我们可以在JS中模拟出面向对象中的接口，继承等特性，这里不在多做介绍。</p>

@@ -1,0 +1,67 @@
+---
+layout: templates
+title: 移动开发一些bug记录
+category: javascript
+tag: 移动开发 bug
+summary: <p>最近在移动端的网页开发，其实就是嵌在微信里面的网页。为了模拟原生的滑动效果用到了一个叫 iScroll.js的框架。移动端的网页真是个坑啊，比如css3的calc 有些Andriod手机依然不支持。CSS3使用还是要慎重。下面记录几点经验和坑。</p>
+---
+<ol>
+<li>
+   <h6>关于分辨率</h6>
+   <p> 对于宽度，字体，等已经使用百分比和em来描述。</p>
+</li> 
+<li>
+  <h6>关于点击穿透</h6>
+   <p>所谓点击穿透就是两个重叠的元素，且都绑定了click事件，当点击上层元素的时候，下层元素的click也会被触发。</p>
+   <p>原因是<strong>手机中的click实际是通过模拟touch来实现的</strong></p>
+   <p>解决方法有很多，比如点击后加个标识变量，来阻止穿透</p>
+   <p>最好的解决方法还是 <strong>使用 touchend 事件来代替click</strong></p>
+</li>
+<li>
+  <h6>iScroll分屏滚动</h6>
+  		<p>当时想了很久怎么才能达到原生的那种左右滚按页数，然后每页又有上下滚动</p>
+  		<p>
+  			最终找到了一个比较好的解决方案
+  			<strong>每页都是一个iScroll的实例,只允许上下滚动，然后所有页合起来又是一个整体的iScroll实例允许左右动
+  			</strong>
+  			html结构:
+{% highlight html %}
+&ltdiv class="frameWrap"&gt
+	&ltdiv class="hScroll"&gt  // 横向滚动的层
+		&ltdiv class="pageWrap"&gt   //每一页又是一个新的scroll，用于纵向滚动
+			&ltdiv class="vScroll"&gt&lt/div&gt
+		&lt/div&gt
+		&ltdiv class="pageWrap"&gt   //一般来说每页的宽度应该与设备宽度一样，如果你有另外的需要自己考虑设置
+			&ltdiv class="vScroll"&gt&lt/div&gt
+		&lt/div&gt
+		&ltdiv class="pageWrap"&gt
+			&ltdiv class="vScroll"&gt&lt/div&gt
+		&lt/div&gt
+		&ltdiv class="pageWrap"&gt
+			&ltdiv class="vScroll"&gt&lt/div&gt
+		&lt/div&gt
+		.....
+	&lt/div&gt 
+&lt/div&gt
+{% endhighlight %}
+  			iScroll配置:
+{% highlight javascript %}
+var myscroll = new iScroll("frameWrap",{
+	hScroll:true,  
+    vScroll:true,  
+    snap:true //设置为true后就可自动分页了
+});
+myscroll.disable(); //这个设置非常关键
+var pageScroll = [];
+$(".pageWrap").each(function(i){
+	pageScroll.push(new iScroll(this),{
+		hScroll:false,
+		vScroll:true
+	});
+});
+{% endhighlight %}
+  			<p>一般来说我们想要屏幕可以切换页面，当又不能让用户通过滑动来切换，所以就需要这是hScroll为true，并调用disable() 就可以达到这个效果，然后通过调用myscroll上的scrollTo或者scrollToPage来切换页面。
+  			</p>
+  		</p>
+</li>
+</ol>

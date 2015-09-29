@@ -1,0 +1,95 @@
+---
+layout: templates
+title: REM，自适应布局的新贵
+category: css
+tag: layout
+summary: <p>淘宝移动端开始使用rem来进行布局之后，大家才渐渐发现了rem这把良器。</p>
+---
+<h3>rem是什么</h3>	
+
+<p>css3规范里是这么说的：</p>
+
+<p>「rem」是根元素（root element，html）的字体大小。<br>
+
+这里的根元素指的是 html 而不是body,即rem是相对于html设置的font-size的大小。<p>
+
+<h3>rem的兼容情况</h3>
+<img src="https://app.yinxiang.com/shard/s20/res/f94f60d4-e632-4f5d-bbf9-c8ef888d776c/rem-1.png" alt="">
+
+<p>从图中可以看出现代浏览器对于rem支持很好，移动端使用rem完全不用考虑兼容问题。
+
+	如需兼容不支持rem的浏览器则在rem前使用px即可，如</p>
+<p class= "prettyprint Lang-css">
+p{
+    font-size:16px;
+    font-size:1rem;
+}
+</p>
+<h3>rem的计算</h3>
+<p>浏览器的默认字体大小是16px。</p>
+<pre class= "prettyprint Lang-css">
+html{
+    font-size:16px;
+}
+此时
+	   1rem即为16px
+       1.5rem即为16*1.5 = 24px
+       .75rem(如果为0.75rem则省略写作 .75rem)即为 16*0.75 = 12px
+</pre>
+
+<p>html的font-size应该设置为类似于10px,16px这样肯定会被整除的单位，否则在计算rem时也许会照成误差。注意，某些浏览器内置了最小的字体大小是12px，如果将font-size设置为10px时可能会引起一些不必要的麻烦。</p>
+
+<p>另外，使用less，sass这样的预编译器时，可以很方便的计算对应的rem,这里简单提供一个sass中计算rem的函数</p>
+<pre class="prettyprint Lang-css">
+$browser-default-font-size: 16px !default;
+@mixin font-size($target){
+    font-size: $target;
+    font-size: ($target / $browser-default-font-size) * 1rem;
+}
+</pre>
+
+<h3>REM为何能用作布局</h3>
+<p>
+假如一个元素 A 使用px布局，width为100px height也为100px。<br>
+那 A 在任何分辨率下都是100px像素。<br>
+但如果我们换作用rem来布局，以浏览器宽为320px，html的font-size位置为20px,rem对应20px。<br>
+那A 的css为 width:5rem height：5rem。<br>
+当浏览器宽度变化时，我们计算新的宽度与320px的比例，然后以这个比例动态的改变html的font-size。<br>
+例如当浏览器宽度变为360时，html的font-size位置为 360 / 320 * 20 = 22.5 px。<br>
+这个这个 A 实际显示出来的长宽也变为了 112.5px 和 112.5px,这样就变成了一个自适应布局!<br>
+如何动态的调整html的font-size现在有两种主流的方案，一是使用CSS的媒体查询，二是用JS去调整。<br>
+我个人一般是使用JS去调整的，因为各个分辨率下，都能自适应到。<br>
+</p>
+{% highlight javascript %}
+
+(function(){
+	var docEl = document.documentElement;
+	var onresize = function(){
+		//width 320  font-size
+		var width = docEl.getBoundingClientRect().width;
+		width = width >=640 ? 640 : width; //对于移动端来说，最大宽度一般要设640，这样保证PC上也能正常看到
+		var rem =  40 / 320 * width + 'px';
+		docEl.style.fontSize = rem;
+	};
+	var resizeTimer = null;
+	window.addEventListener('resize',function(){
+		clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(onresize,300);
+	});
+	onresize();
+})();
+
+{% endhighlight %}
+
+<p>
+	但是用REM作布局却有一个很大的问题，就是有时候换算成px后，会有小数存在，一般来说，浏览器最终会对小数进行四舍五入计算，并不会有太大的问题。<br>
+	但是对于background-size,某些浏览器是采用的floor计算，直接舍弃小数部分，视觉上就是图片少了1像素。这点我在用compass作的雪碧图中经常遇到，我的做法是因为sprite间是有间距的，我在设置sprite的高宽时，会在原有基础上+1px，这样就能保证不会有差别。 如果你有更好的方法请告诉我<br>
+</p>
+<h3>REM作布局的优势</h3>
+<ol>
+	<li>相比百分比布局，rem布局能使高度也作到自适应</li>
+	<li>rem布局能控制字体大小，字体也能自适应</li>
+	<li>rem能解决图片占位的问题，比padding，before等方法更为精确，也直观</li>
+</ol>
+<P>但是需要注意的是，有些地方是不能滥用rem的，比如border-raduis和border，这些基本在任何分辨率下都应该保持一致。</P>
+

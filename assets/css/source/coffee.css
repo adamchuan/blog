@@ -1,0 +1,144 @@
+.coffee-wrap {
+  position: relative;
+  margin: 0 auto;
+  width: 300px;
+  height: 350px;
+  overflow: hidden;
+}
+.coffee-wrap .coffee-wrap {
+  width: 300px;
+  height: 350px;
+  position: relative;
+}
+.coffee-wrap .coffee-body {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  width: 200px;
+  height: 200px;
+  background: #333;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+.coffee-wrap .coffee-hander {
+  position: absolute;
+  top: 70px;
+  left: 220px;
+  width: 60px;
+  height: 100px;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  background: #333;
+}
+.coffee-wrap .coffee-hander-empty {
+  position: absolute;
+  left: 0;
+  top: 25px;
+  width: 30px;
+  height: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  background: #fff;
+}
+.coffee-wrap .coffee-dish {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 260px;
+  height: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  background: #333;
+}
+.coffee-wrap .smoke {
+  width: 20px;
+  height: 40px;
+  border: 5px solid #333;
+  margin-top: -5px;
+}
+.coffee-wrap .smoke:nth-child(odd) {
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  border-right: 0;
+}
+.coffee-wrap .smoke:nth-child(even) {
+  margin-left: 25px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  border-left: 0px;
+}
+.coffee-wrap .smoke-wrap {
+  float: left;
+  margin-left: 20px;
+  transform: scaleY(0.5);
+  transform-origin: 0 0;
+  animation: flutter 2s linear infinite;
+  -webkit-animation: flutter 2s linear infinite;
+  /* Safari and Chrome */
+  -moz-animation: flutter 2s linear infinite;
+}
+.coffee-wrap .coffee-word {
+  position: absolute;
+  bottom: 0;
+}
+@keyframes flutter {
+  0% {
+    transform: scaleY(0.5) translateY(-6px);
+  }
+  100% {
+    transform: scaleY(0.5) translateY(-91px);
+  }
+}
+@-webkit-keyframes flutter {
+  0% {
+    transform: scaleY(0.5) translateY(-6px);
+  }
+  100% {
+    transform: scaleY(0.5) translateY(-91px);
+  }
+}
+@-moz-keyframes flutter {
+  0% {
+    transform: scaleY(0.5) translateY(-6px);
+  }
+  100% {
+    transform: scaleY(0.5) translateY(-91px);
+  }
+}
+@keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.coffee-wrap .smoke-container {
+  height: 48px;
+  overflow: hidden;
+}
+.coffee-wrap .coffee-word {
+  left: 100px;
+  animation: loading 0.9s linear infinite alternate;
+  -webkit-animation: loading 0.9s linear infinite alternate;
+  /* Safari and Chrome */
+  -moz-animation: loading 0.9s linear infinite alternate;
+}

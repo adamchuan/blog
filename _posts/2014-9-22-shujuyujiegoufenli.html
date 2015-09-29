@@ -1,0 +1,49 @@
+---
+layout: templates
+title: 数据与结构分离
+category: javascript
+tag: 设计模式
+summary: <p>说到数据与结构分离，大多数人第一反应应该就是MVC。对于js来说，各种mvvm，mvc框架太多了。</p><p>框架的目的其实很简单，就是帮助杂乱的前端梳理出可以维护的代码。 前端的趋势是组件化，YUI都不再更新了也印证了这一点。</p><p>框架对于我们来说，有时候太“重”了，有时候只需要框架中的某些特性来帮助我们维护代码。“双向绑定”就是一个非常有用的特性</p><p>双向绑定是什么:当view层中对应的model更新时，view层自动会更新这样的描述是不是非常诱人。</p><p>现代流行的框架基本都有自己实现双向绑定的这样一个功能。在这里我将使用一种比较简单的实现双向绑定的功能。</p>
+---
+{% highlight html %}
+// HTML代码
+&ltinput id="num" type = 'text' value = 0 /&gt
+&ltdiv id= "num2" &gt  &lt/div&gt
+{% endhighlight %}
+
+{% highlight javascript %}
+//JS代码
+var control = {
+	init : function(){
+		document.getElementById("num").addEventListener("input", this.inputLisenter);
+	}
+	inputLisenter : function(e){
+		control.model.setNum(document.getElementById("num").value);
+	}
+};
+control.model = {
+	num : 0
+	setNum : function(_num){
+		this.num = _num;
+		this.onChange(num);
+	},
+	getNum : function(){
+		return getNum
+	},
+	onChange : function(type){
+		handler = {
+			num : function(){
+				control.view.updateNum();
+			}
+		}
+		handler[type]();
+	}
+}
+control.view = {
+	updateNum : function(){
+		document.getElementById("num2").innerHTML = control.model.num;
+	}
+}
+{% endhighlight %}
+
+<p>其实上面的代码目的就是当input的值变化时，更新div中显示的值。很简单的一个功能，但是似乎用了很多代码去描述他。 试想，如果你的程序越来越大，获取num的来源越来越多，对于num显示的地方也越来越多，这个时候，数据与结构分离的好处 就凸现出来了。你只需要关注相应的来源，修改少量的代码就可以完成新的需求变化，而且这样的代码便于理解。在合适的地方 采用数据与结构分离，会让你减少很多不必要的麻烦。</p>

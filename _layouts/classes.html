@@ -1,0 +1,36 @@
+{% include header.html %}
+	<div class="container-fluid">
+	  <div class="row-fluid">
+	    <div class="span9 artcalWrap">
+         	{{ content }}
+	    </div>
+	   	<div class="span3 bs-docs-sidebar">
+	   		<h5>分类</h5>
+		   	<ul class="nav nav-list bs-docs-sidenav affix-top slidebar">
+
+	        </ul>
+	   	</div>
+	  </div>
+	</div>
+{% include footer.html %}
+<script>
+	$(document).ready(function(){
+		var $slidebar = $(".slidebar"),
+			html,post,
+			$artcalWrap = $('.artcalWrap');
+		for(var cate in pages){
+			posts = pages[cate];
+			$slidebar.append("<li><a href='#" + cate +"'>" + cate + "(" + posts.length + ")</li>")
+			html = "";
+			html += "<section id='" + cate +"'>";
+			html += "<h5>" + cate +"</h5>";
+			html += "<ul>";
+			for(var i = 0 ; i < posts.length ; i++){
+				html += "<li><a href='{{ site.baseUrl }}" + posts[i].url +"'>" + posts[i].title +  " " + posts[i].date + " </a></li>";
+			}
+			html +="</ul>";
+			html += "</section>";
+			$artcalWrap.append(html);
+		}
+	});
+</script>

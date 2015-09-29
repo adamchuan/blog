@@ -1,0 +1,21 @@
+{
+    "version": "0.1.0",
+    "command": "jekyll server",
+    "isShellCommand": true,
+    "args": [
+        "--watch"
+    ],
+    "tasks": [
+        {
+            "taskName": "jekll",
+            "args": [],
+            "isBuildCommand": true,
+            "isWatching": false,
+            "problemMatcher": [
+                "$lessCompile",
+                "$tsc",
+                "$jshint"
+            ]
+        }
+    ]
+}

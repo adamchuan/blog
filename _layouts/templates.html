@@ -1,0 +1,30 @@
+{% include header.html %}
+<div class='main-contrainer'>
+	<div id='articles' class='article-container'>
+		<header class='article-header-wrap'>
+			<h2 class='article-title'>
+				{{ page.title }}
+			</h2>
+			<small>
+				<time class='article-time'> <i class='icon-calendar'></i>
+					{{ page.date | date:"%Y年%m月%d日" }}
+				</time>
+			</small>
+		</header>
+		<div class="article-content">
+			{{content}}
+			<div class="pageChange">
+				{% if page.previous %}
+				<div class="post-prev-link">上一篇：<a href="{{ page.previous.url }}"> {{ page.previous.title }}</a></div> 
+				{% endif %}
+				{% if page.next %}
+				<div class="post-next-next">下一篇：<a href="{{ page.next.url }}"> {{ page.next.title }}</a></div>		
+				{% endif %}
+			</div>
+		</div>
+		<div id="uyan_frame"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1799216"></script>
+	</div>
+</div>
+
+{% include footer.html %}

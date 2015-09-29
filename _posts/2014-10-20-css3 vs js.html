@@ -1,0 +1,25 @@
+---
+layout: templates
+title: CSS3与JS的动画 分析比较
+category: CSS3
+tag: CSS3 JS 性能
+summary: <p>CSS3动画对许多人来说并不陌生，但是CSS3动画的性能是不是像他宣传的那么棒呢？实践出真知，今天就来做个比较</p>
+---
+<p>首先我们要知道浏览器渲染中有两个很重要的概念: <em>reflow</em>和<em>repaint</em>。简单说来当dom元素的改变引起元素外观变化时，而未改变页面布局，就会有repaint。若布局也变化时，就会有reflow。</p>
+<p>reflow是一个相对消耗浏览器资源的操作。一般来说修改以下属性会引起reflow</p>
+<ol>
+	<li>改变窗囗大小</li>
+	<li>改变文字大小</li>
+	<li>添加/删除样式表</li>
+	<li>内容的改变(input输入内容)</li>
+	<li>激活伪类</li>
+	<li>操作class属性</li>
+	<li>脚本操作DOM</li>
+	<li>计算offsetWidth和offsetHeight</li>
+	<li>设置style属性</li> 
+</ol>
+<p>CSS3的动画相较于JS的优势在于,CSS3是直接调用硬件加速，来完成渲染，而JS则会多一层浏览器的API调用。但是如果遇到reflow这种消耗资源的事情，CSS3的优势就不是那么明显了。</p>
+<p>同时CSS3的对动画的控制不如JS那么精细。你无法获取某帧的具体状态，或者在动画的某一状态触发某个事件。再者如果你要考虑向下的兼容问题时，JS的优势就体现出来了</p>
+<p>所以，最适合使用CSS3的场景是<em>修改transfrom或opacity等不触发reflow的属性来做一些简单的变化的动画</em></p>
+<p>另外一个，不要滥用新技术，在合适的场景选择适合的方案才是最关键的。</p>
+
