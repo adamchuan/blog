@@ -1,0 +1,6 @@
+baseurl: 
+Encoding: UTF-8
+auto: true
+exclude: [node_modules, Gulpfile.js,README.md]
+highlighter: pygments
+mardown: redcarpet
