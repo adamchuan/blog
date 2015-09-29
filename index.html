@@ -11,8 +11,8 @@ title: AdamChuan's Blog
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
 	<meta name="format-detection" content="telephone=no" />
 	<meta property="qc:admins" content="45414367715305166012" />
-	<link rel="stylesheet" href="{{ site.baseurl }}assets/css/all.min.css">
-	<link href="{{ site.baseurl }}assets/plugins/google-code-prettify/prettify.css" rel="stylesheet">
+	<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/all.min.css">
+	<link href="{{ site.baseurl }}/assets/plugins/google-code-prettify/prettify.css" rel="stylesheet">
 	<script type="text/javascript">
 	try{
 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
@@ -80,14 +80,14 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 {% include template.html %}
 
-<script type="text/javascript" src = 'assets/js/all.js'></script>
+<script type="text/javascript" src = '{{ site.baseurl }}assets/js/all.js'></script>
 <script>
 	{% for post in site.posts  %}
 article.add('{{ site.baseurl }}' + '{{ post.url }}','{{ post.summary }}','{{ post.category }}','{{ post.tags}}','{{ post.date | date:"%Y年%m月%d日" }}','{{ post.title }}');
 {% endfor %}
 </script>
 
-<script type='text/javascript' src = 'assets/js/control.js'></script>
+<script type='text/javascript' src = '{{ site.baseurl }}assets/js/control.js'></script>
 </html>
 
 	
