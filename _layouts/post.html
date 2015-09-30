@@ -15,10 +15,10 @@
 	</div>
 	<div class="pageChange">
 		{% if page.previous %}
-		上一篇 : <a href = "{{ site.baseurl +  page.previous.url }}"> {{ page.previous.title | truncatewords:5 }}</a>	
+		上一篇 : <a href = "{{ site.baseurl }}{{page.previous.url }}"> {{ page.previous.title | truncatewords:5 }}</a>	
 		{% endif %}
 		{% if page.next %}
-  		下一篇 : <a href = "{{ site.baseurl +  page.next.url }}"> {{ page.next.title | truncatewords:5 }}</a>	
+  		下一篇 : <a href = "{{ site.baseurl }}{{ page.next.url }}"> {{ page.next.title | truncatewords:5 }}</a>	
 		{% endif %}
 	</div>
 </content>
