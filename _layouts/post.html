@@ -6,7 +6,7 @@
 			<h2>{{ page.title }}
 				<small>分类</small>
 				<small>
-					<a href="{{site.baseUrl}}/class.html#{{ page.category}}">{{ page.category}}</a>
+					<a href="{{site.baseurl}}/class.html#{{ page.category}}">{{ page.category}}</a>
 				</small>
 			</h2>
 		</div>
@@ -15,10 +15,10 @@
 	</div>
 	<div class="pageChange">
 		{% if page.previous %}
-		上一篇 : <a href = "{{  page.previous.url }}"> {{ page.previous.title | truncatewords:5 }}</a>	
+		上一篇 : <a href = "{{ site.baseurl +  page.previous.url }}"> {{ page.previous.title | truncatewords:5 }}</a>	
 		{% endif %}
 		{% if page.next %}
-  		下一篇 : <a href = "{{  page.next.url }}"> {{ page.next.title | truncatewords:5 }}</a>	
+  		下一篇 : <a href = "{{ site.baseurl +  page.next.url }}"> {{ page.next.title | truncatewords:5 }}</a>	
 		{% endif %}
 	</div>
 </content>
