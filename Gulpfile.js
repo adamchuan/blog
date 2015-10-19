@@ -28,32 +28,31 @@ gulp.task('build-css', function() {
 gulp.task('build-js', function() {
     gulp.src(['assets/js/source/*.js','!assets/js/jquery.min.js'])
         .on("error",function(error){
-
             console.log(error);
         })
         .pipe(concat('all.js'))
-        // .pipe(gulp.dest('assets/js'))
-        // .pipe(gulp.dest('_site/assets/js'))
-        // .pipe(rename({
-        //     suffix: '.min'
-        // }))
-        // .pipe(uglify())
-        .pipe(gulp.dest('assets/js/'))
-        .pipe(gulp.dest('_site/assets/js/'))
-        .pipe(connect.reload());
-    gulp.src(['assets/js/control.js'])
+        .pipe(gulp.dest('assets/js'))
+        .pipe(uglify())
         .on("error",function(error){
-
             console.log(error);
         })
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(gulp.dest('assets/js/'))
+        .pipe(connect.reload());
+
+    gulp.src(['assets/js/control.js'])
         .pipe(gulp.dest('assets/js'))
         .pipe(gulp.dest('_site/assets/js'))
+        .on("error",function(error){
+            console.log(error);
+        })
         .pipe(rename({
             suffix: '.min'
         }))
         .pipe(uglify())
         .pipe(gulp.dest('assets/js/'))
-        .pipe(gulp.dest('_site/assets/js/'))
         .pipe(connect.reload());
 });
 
