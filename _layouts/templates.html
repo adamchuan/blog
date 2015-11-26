@@ -22,10 +22,10 @@
 			{{content}}
 			<div class="pageChange">
 				{% if page.previous %}
-				<div class="post-prev-link">上一篇：<a href="{{ site.baseurl + page.previous.url }}"> {{ page.previous.title }}</a></div> 
+				<div class="post-prev-link">上一篇：<a href="{{ site.baseurl }}{{ page.previous.url }}"> {{ page.previous.title }}</a></div> 
 				{% endif %}
 				{% if page.next %}
-				<div class="post-next-next">下一篇：<a href="{{ site.baseurl + page.next.url }}"> {{ page.next.title }}</a></div>		
+				<div class="post-next-next">下一篇：<a href="{{ site.baseurl }}{{ page.next.url }}"> {{ page.next.title }}</a></div>		
 				{% endif %}
 			</div>
 		</div>
