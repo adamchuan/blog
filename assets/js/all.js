@@ -93,11 +93,6 @@ $.get = function(url,callback){
 	})();
 	control.init();
 };
-var uyan_config = {
-     'title':'自定义网页标题 #微博话题#', 
-     'url':'自定义网页链接', 
-     'su':'自定义网页标识' 
-};
 var dom_articles = document.getElementById('articles'),
 	dom_loadding = document.querySelector(".loadingLayer");
 	

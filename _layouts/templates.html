@@ -3,7 +3,7 @@
 <head>
 	{% include header.html title=page.title %}
 </head>
-</body>
+<body>
 <div class="wrapper">
 	{% include nav.html %}
 	<div class='main-contrainer'>
@@ -22,16 +22,29 @@
 			{{content}}
 			<div class="pageChange">
 				{% if page.previous %}
-				<div class="post-prev-link">上一篇：<a href="{{ page.previous.url }}"> {{ page.previous.title }}</a></div> 
+				<div class="post-prev-link">上一篇：<a href="{{ site.baseurl }}{{ page.previous.url }}"> {{ page.previous.title }}</a></div> 
 				{% endif %}
 				{% if page.next %}
-				<div class="post-next-next">下一篇：<a href="{{ page.next.url }}"> {{ page.next.title }}</a></div>		
+				<div class="post-next-next">下一篇：<a href="{{ site.baseurl }}{{ page.next.url }}"> {{ page.next.title }}</a></div>		
 				{% endif %}
 			</div>
 		</div>
-		<div id="uyan_frame"></div>
-		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1799216"></script>
-		</div>
+		<!-- 多说评论框 start -->
+			<div class="ds-thread" data-thread-key="{{ page.id }}" data-title="page.title" data-url="{{ page.url }}"></div>
+		<!-- 多说评论框 end -->
+		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+		<script type="text/javascript">
+		var duoshuoQuery = {short_name:"adamchuan"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0] 
+				 || document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+			</script>
+		<!-- 多说公共JS代码 end -->
 	</div>
 	{% include copyright.html %}
 </div>
